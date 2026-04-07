@@ -207,6 +207,7 @@ function DayCard({ day, isToday, registerRef }) {
     >
       <div className="px-4 pb-4 pt-4">
         <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3">
           <div className="flex items-center gap-2">
             <h2 className="text-2xl font-black leading-none text-zinc-900">{day.day}</h2>
             {isToday ? (
@@ -288,23 +289,33 @@ export default function SodaZaalApp() {
       <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-3 pb-28 pt-4">
         <header className="sticky top-0 z-20 mb-3 rounded-[30px] bg-white/95 px-4 py-4 shadow-sm ring-1 ring-zinc-200 backdrop-blur">
           <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-zinc-500">Brasserie Soda</p>
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[22px] bg-zinc-900 text-white shadow-sm ring-1 ring-zinc-800">
+                <div className="text-center leading-none">
+                  <div className="text-[10px] font-black tracking-[0.28em]">SODA</div>
+                  <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-zinc-300">Zaal</div>
+                </div>
+              </div>
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-zinc-500">Brasserie Soda</p>
               <h1 className="mt-1 text-[30px] font-black leading-none tracking-tight">Zaalrooster</h1>
               <p className="mt-2 text-sm font-medium text-zinc-500">Mobiele leesversie voor zaal. Snel, simpel, bruikbaar.</p>
+            </div>
             </div>
             <div className="rounded-2xl bg-zinc-900 px-3 py-2 text-right text-white shadow-sm">
               <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-300">Data</div>
               <div className="mt-1 text-sm font-black">{isLive ? "Live" : "Fallback"}</div>
+              <div className="mt-1 text-[10px] font-medium text-zinc-300">ZAAL APP</div>
             </div>
           </div>
 
           {todayItem ? (
             <div className="mt-4 overflow-hidden rounded-[28px] bg-zinc-900 px-4 py-4 text-white shadow-md ring-1 ring-zinc-800">
+              <div className="pointer-events-none absolute" />
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400">Vandaag</div>
                   <div className="mt-1 text-3xl font-black leading-none">{todayItem.day}</div>
+                  <div className="mt-2 text-sm font-medium text-zinc-300">Snel overzicht van de bezetting van vandaag</div>
                 </div>
                 <span className={`rounded-full px-3 py-1.5 text-xs font-black ring-1 ${getDayStatusClasses(todayItem.status)}`}>
                   {todayItem.status}
@@ -383,6 +394,9 @@ export default function SodaZaalApp() {
         </header>
 
         <main className="space-y-3">
+          <div className="px-1 text-center text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-400">
+            Live zaalrooster voor smartphone
+          </div>
           {!showWeek && todayItem ? (
             <DayCard
               day={todayItem}
