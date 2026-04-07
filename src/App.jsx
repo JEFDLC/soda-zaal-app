@@ -255,8 +255,34 @@ export default function SodaZaalApp() {
           ) : null}
         </header>
 
-        <main className="space-y-3">
-          {weekData.map((day) => (
+        const [showWeek, setShowWeek] = useState(false);
+
+<main className="space-y-3">
+
+  {/* Vandaag */}
+  {todayItem && (
+    <article className="rounded-[28px] bg-white shadow-md ring-2 ring-amber-300">
+      {/* inhoud exact zoals je al hebt */}
+      {/* kopieer je bestaande day-card hier met todayItem */}
+    </article>
+  )}
+
+  {/* Toggle knop */}
+  <button
+    onClick={() => setShowWeek(!showWeek)}
+    className="w-full rounded-2xl bg-zinc-900 text-white py-3 text-sm font-semibold"
+  >
+    {showWeek ? "Verberg week" : "Bekijk volledige week"}
+  </button>
+
+  {/* Week */}
+  {showWeek &&
+    weekData.map((day) => (
+      <article key={day.day}>
+        {/* bestaande code */}
+      </article>
+    ))}
+</main>
             <article
               key={day.day}
               ref={(node) => {
