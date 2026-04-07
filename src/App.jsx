@@ -139,6 +139,12 @@ function getSectionStatusClasses(status) {
   return "bg-emerald-100 text-emerald-800 ring-emerald-200";
 }
 
+function getStatusDot(status) {
+  if (status === "Opletten" || status === "0/1" || status === "1/2") return "bg-rose-500";
+  if (status === "GESLOTEN") return "bg-zinc-400";
+  return "bg-emerald-500";
+}
+
 function PeopleStack({ items, variant = "default" }) {
   const bgClass = variant === "extra" ? "bg-amber-50 text-amber-900 ring-amber-100" : "bg-zinc-100 text-zinc-800 ring-zinc-200";
 
@@ -158,28 +164,31 @@ function PeopleStack({ items, variant = "default" }) {
 
 function SectionCard({ title, bar, zaal, extra, status }) {
   return (
-    <section className="rounded-3xl bg-zinc-50 p-3 ring-1 ring-zinc-200">
+    <section className="rounded-3xl bg-zinc-50 p-3 ring-1 ring-zinc-200 shadow-sm">
       <div className="flex items-center justify-between gap-2">
-        <div className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500">{title}</div>
+        <div className="flex items-center gap-2">
+          <span className={`h-2.5 w-2.5 rounded-full ${getStatusDot(status)}`} />
+          <div className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500">{title}</div>
+        </div>
         <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ring-1 ${getSectionStatusClasses(status)}`}>
           {status}
         </span>
       </div>
 
       <div className="mt-3 grid grid-cols-3 gap-2">
-        <div className="rounded-2xl bg-white p-3 ring-1 ring-zinc-200">
+        <div className="rounded-2xl bg-white p-3 ring-1 ring-zinc-200 shadow-sm">
           <div className="text-[10px] uppercase tracking-[0.16em] text-zinc-400">Bar</div>
-          <div className="mt-2 rounded-xl bg-zinc-900 px-2.5 py-2 text-sm font-bold text-white">
+          <div className="mt-2 rounded-xl bg-zinc-900 px-2.5 py-2 text-sm font-bold text-white shadow-sm">
             {bar}
           </div>
         </div>
 
-        <div className="rounded-2xl bg-white p-3 ring-1 ring-zinc-200">
+        <div className="rounded-2xl bg-white p-3 ring-1 ring-zinc-200 shadow-sm">
           <div className="text-[10px] uppercase tracking-[0.16em] text-zinc-400">Zaal</div>
           <PeopleStack items={zaal} />
         </div>
 
-        <div className="rounded-2xl bg-white p-3 ring-1 ring-zinc-200">
+        <div className="rounded-2xl bg-white p-3 ring-1 ring-zinc-200 shadow-sm">
           <div className="text-[10px] uppercase tracking-[0.16em] text-zinc-400">Extra</div>
           <PeopleStack items={extra} variant="extra" />
         </div>
@@ -275,8 +284,8 @@ export default function SodaZaalApp() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-100 text-zinc-900">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-3 pb-24 pt-4">
+    <div className="min-h-screen bg-gradient-to-b from-zinc-100 via-zinc-100 to-zinc-200 text-zinc-900">
+      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-3 pb-28 pt-4">
         <header className="sticky top-0 z-20 mb-3 rounded-[30px] bg-white/95 px-4 py-4 shadow-sm ring-1 ring-zinc-200 backdrop-blur">
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -291,15 +300,36 @@ export default function SodaZaalApp() {
           </div>
 
           {todayItem ? (
-            <div className="mt-4 rounded-3xl bg-zinc-900 px-4 py-4 text-white shadow-sm">
-              <div className="flex items-center justify-between gap-3">
+            <div className="mt-4 overflow-hidden rounded-[28px] bg-zinc-900 px-4 py-4 text-white shadow-md ring-1 ring-zinc-800">
+              <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400">Vandaag</div>
-                  <div className="mt-1 text-2xl font-black leading-none">{todayItem.day}</div>
+                  <div className="mt-1 text-3xl font-black leading-none">{todayItem.day}</div>
                 </div>
                 <span className={`rounded-full px-3 py-1.5 text-xs font-black ring-1 ${getDayStatusClasses(todayItem.status)}`}>
                   {todayItem.status}
                 </span>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="rounded-2xl bg-white/10 px-3 py-3 ring-1 ring-white/10">
+                  <div className="text-[10px] uppercase tracking-[0.16em] text-zinc-400">Lunch</div>
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <span className="text-sm font-bold text-white">{todayItem.lunch.bar}</span>
+                    <span className={`rounded-full px-2 py-1 text-[10px] font-black ring-1 ${getSectionStatusClasses(todayItem.lunch.status)}`}>
+                      {todayItem.lunch.status}
+                    </span>
+                  </div>
+                </div>
+                <div className="rounded-2xl bg-white/10 px-3 py-3 ring-1 ring-white/10">
+                  <div className="text-[10px] uppercase tracking-[0.16em] text-zinc-400">Avond</div>
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <span className="text-sm font-bold text-white">{todayItem.avond.bar}</span>
+                    <span className={`rounded-full px-2 py-1 text-[10px] font-black ring-1 ${getSectionStatusClasses(todayItem.avond.status)}`}>
+                      {todayItem.avond.status}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           ) : null}
@@ -313,7 +343,7 @@ export default function SodaZaalApp() {
                   setShowWeek(true);
                   setTimeout(() => scrollToDay(day.key), 50);
                 }}
-                className={`rounded-full px-3 py-2 text-xs font-black ring-1 whitespace-nowrap ${
+                className={`rounded-full px-3 py-2 text-xs font-black ring-1 whitespace-nowrap transition ${
                   day.jsDay === todayJsDay
                     ? "bg-amber-100 text-amber-900 ring-amber-200"
                     : "bg-white text-zinc-700 ring-zinc-200"
@@ -328,8 +358,8 @@ export default function SodaZaalApp() {
             <button
               type="button"
               onClick={() => setShowWeek(false)}
-              className={`rounded-2xl px-3 py-3 text-sm font-black ring-1 ${
-                !showWeek ? "bg-zinc-900 text-white ring-zinc-900" : "bg-white text-zinc-700 ring-zinc-200"
+              className={`rounded-2xl px-3 py-3 text-sm font-black ring-1 transition ${
+                !showWeek ? "bg-zinc-900 text-white ring-zinc-900 shadow-sm" : "bg-white text-zinc-700 ring-zinc-200"
               }`}
             >
               Vandaag
@@ -337,8 +367,8 @@ export default function SodaZaalApp() {
             <button
               type="button"
               onClick={() => setShowWeek(true)}
-              className={`rounded-2xl px-3 py-3 text-sm font-black ring-1 ${
-                showWeek ? "bg-zinc-900 text-white ring-zinc-900" : "bg-white text-zinc-700 ring-zinc-200"
+              className={`rounded-2xl px-3 py-3 text-sm font-black ring-1 transition ${
+                showWeek ? "bg-zinc-900 text-white ring-zinc-900 shadow-sm" : "bg-white text-zinc-700 ring-zinc-200"
               }`}
             >
               Volledige week
